@@ -1,11 +1,11 @@
 package com.example.mycanada;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainMenu extends AppCompatActivity {
 
@@ -22,7 +22,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void onItem1Click(MenuItem item) {
-        Intent intent = new Intent(MainMenu.this, Assignment2.class);
+        Intent intent = new Intent(MainMenu.this, Sensors.class);
         startActivity(intent);
     }
 
