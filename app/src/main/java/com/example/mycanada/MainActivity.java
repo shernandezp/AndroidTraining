@@ -14,13 +14,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /*b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Hey!!", Toast.LENGTH_SHORT).show();
-            }
-        });*/
     }
 
     public void onClickButton(View view) {
@@ -31,11 +24,15 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-            Intent intent = new Intent(MainActivity.this, MainBlackBoard.class);
-            startActivity(intent);
+            User user = new User(MainActivity.this, username.getText().toString(), password.getText().toString());
+            if (user.ValidateUser()) {
+                Intent intent = new Intent(MainActivity.this, MainBlackBoard.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Invalid credentials, please try again.", Toast.LENGTH_SHORT).show();
+            }
+
         }
-
-
     }
 
     public void onClickButton2(View view) {

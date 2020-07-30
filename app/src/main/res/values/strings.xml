@@ -12,5 +12,5 @@
     <string name="menu_gallery">Google Map</string>
     <string name="menu_slideshow">Sensors</string>
     <string name="menu_users">Users</string>
-    <string name="title_activity_my_google_map">Map</string>
+    <string name="menu_contacts">Contact List</string>
 </resources>

@@ -20,6 +20,22 @@
             android:text="Enter your information" />
 
         <EditText
+            android:id="@+id/editTextUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Username" />
+
+        <EditText
+            android:id="@+id/editTextPwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:hint="Password" />
+
+        <EditText
             android:id="@+id/editText1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,48 +99,24 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="85dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onClickButton6"
-                android:enabled="false"
-                android:text="Toast" />
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onClickButton3"
-                android:enabled="false"
-                android:text="Text" />
-
-            <Button
                 android:id="@+id/button7"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:onClick="onClickButton7"
                 android:text="Next" />
         </LinearLayout>
 
         <TextView
+            android:paddingTop="@dimen/cardview_default_radius"
             android:id="@+id/textView13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onClickTextView2"
             android:text="* Terms and Conditions" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lines="5" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

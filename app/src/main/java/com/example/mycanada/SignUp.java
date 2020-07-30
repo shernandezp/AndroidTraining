@@ -26,13 +26,13 @@ import java.util.Calendar;
 
 public class SignUp extends AppCompatActivity {
 
-    Button b1;
-    Button b2;
     Button b3;
     CheckBox checkBox;
     EditText text;
     EditText text2;
     EditText text3;
+    EditText username;
+    EditText password;
     RadioGroup rdGender;
     Spinner list;
     ArrayList arrayList;
@@ -44,20 +44,20 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up);
 
-        b1 = findViewById(R.id.button6);
-        b2 = findViewById(R.id.button3);
         b3 = findViewById(R.id.button7);
         checkBox = findViewById(R.id.checkBox2);
         text = findViewById(R.id.editText1);
         text2 = findViewById(R.id.editText2);
         text3 = findViewById(R.id.editText3);
+        username = findViewById(R.id.editTextUser);
+        password = findViewById(R.id.editTextPwd);
         rdGender = findViewById(R.id.radioGroup);
         list = findViewById(R.id.list);
         arrayList = new ArrayList();
         arrayList.add("Bachelor");
         arrayList.add("Master");
         arrayList.add("Doctor");
-        adapter= new ArrayAdapter(SignUp.this, android.R.layout.simple_list_item_1, arrayList);
+        adapter = new ArrayAdapter(SignUp.this, android.R.layout.simple_list_item_1, arrayList);
         list.setAdapter(adapter);
 
         list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -73,15 +73,6 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
-    public void onClickButton3(View view) {
-        TextView result = findViewById(R.id.textView);
-        result.setText(GetEditText());
-    }
-
-    public void onClickButton6(View view) {
-        Toast.makeText(this, GetEditText(), Toast.LENGTH_SHORT).show();
-    }
-
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -89,44 +80,41 @@ public class SignUp extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("mycanadaapp", MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        if (validatePassword()) {
+            if (checkBox.isChecked()) {
+                Intent intent = new Intent(SignUp.this, Profile.class);
+                editor.putString("username", username.getText().toString());
+                editor.putString("password", password.getText().toString());
+                editor.putString("phone", text.getText().toString());
+                editor.putString("blood", text2.getText().toString());
+                editor.putString("birth", text3.getText().toString());
+                editor.putString("gender", GetGender());
+                editor.putString("qualification", selectedItem);
+                editor.commit();
 
-        if (checkBox.isChecked())
-        {
-            Intent intent = new Intent(SignUp.this, Profile.class);
-            editor.putString("phone", text.getText().toString());
-            editor.putString("blood", text2.getText().toString());
-            editor.putString("birth", text3.getText().toString());
-            editor.putString("gender", GetGender());
-            editor.putString("qualification", selectedItem);
-            editor.commit();
+                /*Store on Database*/
+                User user = new User(SignUp.this, username.getText().toString(), password.getText().toString(), text.getText().toString(), text3.getText().toString(), 1, 1);
+                user.InsertUser();
 
-            /*Store on Database*/
-            User user = new User(SignUp.this, text.getText().toString(), text3.getText().toString(), 1, 1);
+                startActivity(intent);
+            } else {
+                AlertDialog.Builder alert = new AlertDialog.Builder(SignUp.this);
+                alert.setTitle("Warning!");
+                alert.setMessage("Please indicate that you have read and agree to the Terms and Conditions and Privacy Policy");
+                alert.setIcon(android.R.drawable.stat_sys_warning);
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-            startActivity(intent);
-        } else {
-            AlertDialog.Builder alert = new AlertDialog.Builder(SignUp.this);
-            alert.setTitle("Warning!");
-            alert.setMessage("Please indicate that you have read and agree to the Terms and Conditions and Privacy Policy");
-            alert.setIcon(android.R.drawable.stat_sys_warning);
-            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            alert.show();
+                    }
+                });
+                alert.show();
+            }
         }
     }
 
     public void onClickCheck(View view) {
-        if (checkBox.isChecked()){
-            b1.setEnabled(true);
-            b2.setEnabled(true);
-        } else {
-            b1.setEnabled(false);
-            b2.setEnabled(false);
-        }
+
     }
 
     public void onTextViewClick(View view) {
@@ -151,26 +139,36 @@ public class SignUp extends AppCompatActivity {
 
     //Private methods
 
-    private String GetEditText()
-    {
-        String result = text.getText().toString() + "\n" +
-                text2.getText().toString() + "\n" +
-                text3.getText().toString() + "\n" +
-                GetGender();
-        return result;
-    }
-
     private String GetGender() {
         String gender = "";
         switch (rdGender.getCheckedRadioButtonId()) {
-            case R.id.radioButton: gender = "Male"; break;
-            case R.id.radioButton2: gender = "Female"; break;
+            case R.id.radioButton:
+                gender = "Male";
+                break;
+            case R.id.radioButton2:
+                gender = "Female";
+                break;
         }
-        return  gender;
+        return gender;
     }
 
     public void onClickTextView2(View view) {
         Intent intent = new Intent(SignUp.this, TermsConditions.class);
         startActivity(intent);
+    }
+
+    public boolean validatePassword() {
+        boolean result = true;
+        int passwordLength = password.getText().toString().length();
+        int usernameLength = username.getText().toString().length();
+        if (passwordLength < 5) {
+            Toast.makeText(SignUp.this, "Password is too short.", Toast.LENGTH_SHORT).show();
+            result = false;
+        }
+        if (usernameLength < 4) {
+            Toast.makeText(SignUp.this, "Username is too short.", Toast.LENGTH_SHORT).show();
+            result = false;
+        }
+        return result;
     }
 }

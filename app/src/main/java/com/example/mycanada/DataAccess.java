@@ -11,19 +11,19 @@ public class DataAccess extends SQLiteOpenHelper {
 
     public DataAccess(Context context) {
         //TODO get database name from configuration file
-        super(context, "mycanada.db", null, 1);
+        super(context, "mycanada.db", null, 2);
         sqLiteDatabase = getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table user (Mobile text, Birth text, Gender integer, Qualification integer)");
+        db.execSQL("create table user (Username text, Password text, Mobile text, Birth text, Gender integer, Qualification integer)");
         db.execSQL("create table qualification (Id integer, Description text)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.rawQuery("ALTER TABLE user ADD COLUMN photo text", null);
     }
 
     public void insert(String table, ContentValues values) {
@@ -40,7 +40,7 @@ public class DataAccess extends SQLiteOpenHelper {
 
     public Cursor get(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
         Cursor c = sqLiteDatabase.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
-        c.moveToFirst();
+        //c.moveToFirst();
         return c;
     }
 }

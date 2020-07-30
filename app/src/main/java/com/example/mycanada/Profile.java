@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class Profile extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     ImageView imageView;
+    TextView welcome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +39,13 @@ public class Profile extends AppCompatActivity {
         ArrayList arrayList = new ArrayList();
         ListView list = findViewById(R.id.listResult);
         imageView = findViewById(R.id.imageView);
-
+        welcome = findViewById(R.id.textViewWelcome);
 
         sharedPreferences = getSharedPreferences("mycanadaapp", MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
+        String username = sharedPreferences.getString("username", "def val");
+        welcome.setText("Welcome " + username + "!!!");
         phone = sharedPreferences.getString("phone", "def val");
         arrayList.add(phone);
         arrayList.add(sharedPreferences.getString("blood", "def val"));

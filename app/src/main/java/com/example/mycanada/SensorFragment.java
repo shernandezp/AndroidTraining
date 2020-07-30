@@ -87,7 +87,7 @@ public class SensorFragment extends Fragment {
                 }
                 if (list.size() > 0) {
 
-                    sm.registerListener(sel, (Sensor) list.get(selectedIndex), SensorManager.SENSOR_DELAY_NORMAL);
+                    sm.registerListener(sel, (Sensor) list.get(0), SensorManager.SENSOR_DELAY_NORMAL);
                 } else {
                     Toast.makeText(getContext(), "Error: No " + sensorName, Toast.LENGTH_LONG).show();
                 }
@@ -113,6 +113,9 @@ public class SensorFragment extends Fragment {
                     textView.setText("x: " + values[0] + "\ny: " + values[1] + "\nz: " + values[2]);
                     break;
                 case 1:
+                    textView.setText("x: " + values[0]);
+                    break;
+                case 3:
                     textView.setText("x: " + values[0]);
                     break;
             }
