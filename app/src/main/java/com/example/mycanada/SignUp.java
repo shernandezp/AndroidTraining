@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,12 +45,14 @@ public class SignUp extends AppCompatActivity {
     ArrayList arrayList;
     ArrayAdapter adapter;
     String selectedItem;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up);
-
+        
         b3 = findViewById(R.id.button7);
         checkBox = findViewById(R.id.checkBox2);
         text = findViewById(R.id.editText1);
@@ -73,9 +82,6 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-
     public void onClickButton7(View view) {
 
         sharedPreferences = getSharedPreferences("mycanadaapp", MODE_PRIVATE);
@@ -93,7 +99,7 @@ public class SignUp extends AppCompatActivity {
                 editor.commit();
 
                 /*Store on Database*/
-                User user = new User(SignUp.this, username.getText().toString(), password.getText().toString(), text.getText().toString(), text3.getText().toString(), 1, 1);
+                User user = new User(SignUp.this, username.getText().toString(), password.getText().toString(), text.getText().toString(), text3.getText().toString(), 1, 1, "");
                 user.InsertUser();
 
                 startActivity(intent);
@@ -171,4 +177,5 @@ public class SignUp extends AppCompatActivity {
         }
         return result;
     }
+
 }

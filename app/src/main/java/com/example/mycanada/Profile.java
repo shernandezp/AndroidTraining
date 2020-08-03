@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.telephony.SmsManager;
 import android.view.View;
@@ -21,11 +23,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class Profile extends AppCompatActivity {
 
     String phone;
+    String username;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     ImageView imageView;
@@ -44,7 +53,7 @@ public class Profile extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("mycanadaapp", MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
-        String username = sharedPreferences.getString("username", "def val");
+        username = sharedPreferences.getString("username", "def val");
         welcome.setText("Welcome " + username + "!!!");
         phone = sharedPreferences.getString("phone", "def val");
         arrayList.add(phone);
@@ -88,7 +97,7 @@ public class Profile extends AppCompatActivity {
         sendNotification("Email", "Your Email message has been delivered!");
     }
 
-    protected void sendNotification(String title, String body){
+    protected void sendNotification(String title, String body) {
         NotificationManager notificationManager = (NotificationManager) Profile.this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         int notificationId = 1;
@@ -120,9 +129,62 @@ public class Profile extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2){
+        if (requestCode == 2) {
             Bitmap image = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(image);
+            String path = saveImage(Profile.this, image);
+            //store in database
+            User user = new User(Profile.this);
+            user.SetUsername(username);
+            user.SetPhoto(path);
+            user.UpdatePhoto();
         }
+    }
+
+    protected String saveImage(Context context, Bitmap image) {
+
+        String savedImagePath = null;
+
+        // Create the new file in the external storage
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                Locale.getDefault()).format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + ".jpg";
+        File storageDir = new File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                        + "/MyCamera");
+        boolean success = true;
+        if (!storageDir.exists()) {
+            success = storageDir.mkdirs();
+        }
+
+        // Save the new Bitmap
+        if (success) {
+            File imageFile = new File(storageDir, imageFileName);
+            savedImagePath = imageFile.getAbsolutePath();
+            try {
+                OutputStream fOut = new FileOutputStream(imageFile);
+                image.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+                fOut.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Add the image to the system gallery
+            galleryAddPic(context, savedImagePath);
+
+            // Show a Toast with the save location
+            // String savedMessage = context.getString(R.string.saved_message, savedImagePath);
+
+        }
+
+        return savedImagePath;
+    }
+
+    private void galleryAddPic(Context context, String imagePath) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(imagePath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        context.sendBroadcast(mediaScanIntent);
     }
 }

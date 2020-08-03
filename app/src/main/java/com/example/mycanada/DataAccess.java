@@ -17,13 +17,13 @@ public class DataAccess extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table user (Username text, Password text, Mobile text, Birth text, Gender integer, Qualification integer)");
+        db.execSQL("create table user (Username text, Password text, Mobile text, Birth text, Gender integer, Qualification integer, Photo text)");
         db.execSQL("create table qualification (Id integer, Description text)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.rawQuery("ALTER TABLE user ADD COLUMN photo text", null);
+        //db.rawQuery("ALTER TABLE user ADD COLUMN photo text", null);
     }
 
     public void insert(String table, ContentValues values) {
@@ -31,11 +31,11 @@ public class DataAccess extends SQLiteOpenHelper {
     }
 
     public void update(String table, ContentValues values, String whereClause, String[] whereArgs) {
-        sqLiteDatabase.update(table, values, whereClause, null);
+        sqLiteDatabase.update(table, values, whereClause, whereArgs);
     }
 
     public void delete(String table, String whereClause, String[] whereArgs) {
-        sqLiteDatabase.delete(table, whereClause, null);
+        sqLiteDatabase.delete(table, whereClause, whereArgs);
     }
 
     public Cursor get(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {

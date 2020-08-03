@@ -15,6 +15,7 @@ public class User extends DataAccess {
     private String birth;
     private int gender;
     private int qualification;
+    private String photo;
 
     public User(Context context){
         super(context);
@@ -28,7 +29,7 @@ public class User extends DataAccess {
         this.password = password;
     }
 
-    public User(Context context, String username, String password, String mobile, String birth, int gender, int qualification) {
+    public User(Context context, String username, String password, String mobile, String birth, int gender, int qualification, String photo) {
         super(context);
         this.context = context;
         this.username = username;
@@ -37,11 +38,22 @@ public class User extends DataAccess {
         this.birth = birth;
         this.gender = gender;
         this.qualification = qualification;
+        this.photo = photo;
     }
 
     public String GetUsername() {
         return this.username;
     }
+    public String GetPhoto() {
+        return this.photo;
+    }
+    public void SetUsername(String username) {
+        this.username = username;
+    }
+    public void SetPhoto(String pathPicture) {
+        this.photo = pathPicture;
+    }
+
 
     public void InsertUser() {
         ContentValues contentValues = new ContentValues();
@@ -54,16 +66,14 @@ public class User extends DataAccess {
         insert("user", contentValues);
     }
 
-    public void UpdateUser() {
+    public void UpdatePhoto() {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("Birth", this.birth);
-        contentValues.put("Gender", this.gender);
-        contentValues.put("Qualification", this.qualification);
-        update("user", contentValues, "Username = ?", new String[]{this.mobile});
+        contentValues.put("Photo", this.photo);
+        update("user", contentValues, "Username = ?", new String[]{this.username});
     }
 
     public void DeleteUser() {
-        delete("user", "Username = ?", new String[]{this.mobile});
+        delete("user", "Username = ?", new String[]{this.username});
     }
 
     public boolean ValidateUser() {
@@ -77,7 +87,7 @@ public class User extends DataAccess {
     }
 
     public User GetUser() {
-        Cursor c = get("user", null, "Username=?", new String[]{this.mobile}, null, null, null);
+        Cursor c = get("user", null, "Username=?", new String[]{this.username}, null, null, null);
         c.moveToFirst();
         if (c.getCount() < 1) {
             return null;
@@ -88,7 +98,8 @@ public class User extends DataAccess {
                 c.getString(c.getColumnIndex("Mobile")),
                 c.getString(c.getColumnIndex("Birth")),
                 c.getInt(c.getColumnIndex("Gender")),
-                c.getInt(c.getColumnIndex("Qualification")));
+                c.getInt(c.getColumnIndex("Qualification")),
+                c.getString(c.getColumnIndex("Photo")));
         return user;
     }
 
@@ -104,7 +115,8 @@ public class User extends DataAccess {
                         c.getString(c.getColumnIndex("Mobile")),
                         c.getString(c.getColumnIndex("Birth")),
                         c.getInt(c.getColumnIndex("Gender")),
-                        c.getInt(c.getColumnIndex("Qualification")));
+                        c.getInt(c.getColumnIndex("Qualification")),
+                        c.getString(c.getColumnIndex("Photo")));
                 users.add(user);
             } while (c.moveToNext());
         }
