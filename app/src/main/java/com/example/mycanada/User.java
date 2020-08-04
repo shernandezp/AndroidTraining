@@ -44,16 +44,13 @@ public class User extends DataAccess {
     public String GetUsername() {
         return this.username;
     }
-    public String GetPhoto() {
-        return this.photo;
-    }
+    public String GetPhoto() {  return this.photo; }
     public void SetUsername(String username) {
         this.username = username;
     }
     public void SetPhoto(String pathPicture) {
         this.photo = pathPicture;
     }
-
 
     public void InsertUser() {
         ContentValues contentValues = new ContentValues();

@@ -47,11 +47,13 @@ public class SignUp extends AppCompatActivity {
     String selectedItem;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up);
+        user = new User(SignUp.this);
         
         b3 = findViewById(R.id.button7);
         checkBox = findViewById(R.id.checkBox2);
@@ -86,7 +88,7 @@ public class SignUp extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("mycanadaapp", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        if (validatePassword()) {
+        if (validateInput() && validateExistingUsername()) {
             if (checkBox.isChecked()) {
                 Intent intent = new Intent(SignUp.this, Profile.class);
                 editor.putString("username", username.getText().toString());
@@ -99,7 +101,7 @@ public class SignUp extends AppCompatActivity {
                 editor.commit();
 
                 /*Store on Database*/
-                User user = new User(SignUp.this, username.getText().toString(), password.getText().toString(), text.getText().toString(), text3.getText().toString(), 1, 1, "");
+                user = new User(SignUp.this, username.getText().toString(), password.getText().toString(), text.getText().toString(), text3.getText().toString(), 1, 1, "");
                 user.InsertUser();
 
                 startActivity(intent);
@@ -163,7 +165,7 @@ public class SignUp extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public boolean validatePassword() {
+    public boolean validateInput() {
         boolean result = true;
         int passwordLength = password.getText().toString().length();
         int usernameLength = username.getText().toString().length();
@@ -173,6 +175,16 @@ public class SignUp extends AppCompatActivity {
         }
         if (usernameLength < 4) {
             Toast.makeText(SignUp.this, "Username is too short.", Toast.LENGTH_SHORT).show();
+            result = false;
+        }
+        return result;
+    }
+
+    public boolean validateExistingUsername() {
+        boolean result = true;
+        user.SetUsername(username.getText().toString());
+        if (user.GetUser() != null) {
+            Toast.makeText(SignUp.this, "Username not available.", Toast.LENGTH_SHORT).show();
             result = false;
         }
         return result;
