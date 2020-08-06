@@ -14,4 +14,6 @@
     <string name="menu_slideshow">Sensors</string>
     <string name="menu_users">Users</string>
     <string name="menu_contacts">Contact List</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
