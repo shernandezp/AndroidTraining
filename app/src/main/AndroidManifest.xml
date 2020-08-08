@@ -45,10 +45,9 @@
             android:name=".MyService"
             android:enabled="true"
             android:exported="true" />
-        <activity android:name=".Sensors" />
+
         <activity android:name=".Message"></activity>
         <activity android:name=".TermsConditions" />
-        <activity android:name=".MainMenu" />
         <activity android:name=".Profile" />
         <activity android:name=".SignUp" />
         <activity android:name=".Sensors" />
