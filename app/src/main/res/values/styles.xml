@@ -5,6 +5,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:buttonStyle">@style/ClassicButton</item>
+        <item name="android:textViewStyle">@style/ClassicTextView</item>
+        <item name="editTextStyle">@style/ClassicEditText</item>
+        <item name="android:background">#263940</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -15,5 +19,18 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="ClassicButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="fontStyle">@font/classic</item>
+    </style>
+    <style name="ClassicTextView" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/inder</item>
+        <item name="android:textColor">#F6F0F0</item>
+    </style>
+    <style name="ClassicEditText" parent="Widget.AppCompat.EditText">
+        <item name="fontFamily">@font/heebo</item>
+        <item name="android:background">#C3E4F6</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textColor">#020202</item>
+    </style>
 
 </resources>

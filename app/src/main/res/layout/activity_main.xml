@@ -12,23 +12,23 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="32sp"
         android:gravity="center"
-        android:text="Login" />
+        android:text="Login"
+        android:textSize="32sp" />
 
     <EditText
         android:id="@+id/editText1"
+        style="@style/ClassicEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Username" />
+        android:hint="Username"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/editText2"
+        style="@style/ClassicEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:hint="Password"
         android:inputType="textPassword" />
 

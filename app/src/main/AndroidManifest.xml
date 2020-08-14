@@ -35,6 +35,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".MainBlackBoard"
@@ -50,7 +53,6 @@
         <activity android:name=".TermsConditions" />
         <activity android:name=".Profile" />
         <activity android:name=".SignUp" />
-        <activity android:name=".Sensors" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
